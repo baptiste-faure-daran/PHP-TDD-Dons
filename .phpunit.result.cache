@@ -1,0 +1,1 @@
+C:37:"PHPUnit\Runner\DefaultTestResultCache":280:{a:2:{s:7:"defects";a:0:{}s:5:"times";a:2:{s:103:"Tests\Unit\DonationFeeTest::testCommissionAmountIs10CentsFormDonationOf100CentsAndCommissionOf10Percent";d:0.009;s:103:"Tests\Unit\DonationFeeTest::testCommissionAmountIs20CentsFormDonationOf200CentsAndCommissionOf10Percent";d:0;}}}

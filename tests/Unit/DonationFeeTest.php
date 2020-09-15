@@ -22,7 +22,7 @@ class DonationFeeTest extends TestCase
 
     public function testCommissionAmountIs20CentsFormDonationOf200CentsAndCommissionOf10Percent()
     {
-        // Etant donné une donation de 100 et commission de 10%
+        // Etant donné une donation de 200 et commission de 10%
         $donationFees = new \App\Support\DonationFee(200, 10);
 
         // Lorsque qu'on appel la méthode getCommissionAmount()
