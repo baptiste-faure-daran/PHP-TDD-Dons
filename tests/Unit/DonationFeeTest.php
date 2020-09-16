@@ -41,7 +41,7 @@ class DonationFeeTest extends TestCase
         $amountCollected = $donationFees->getAmountCollected();
 
         // THEN
-        $expectedAmount= 180;
+        $expectedAmount= 130;
         $this->assertEquals($expectedAmount, $amountCollected);
     }
 
@@ -69,6 +69,25 @@ class DonationFeeTest extends TestCase
 
         // THEN
         $expected= 500;
+        $this->assertEquals($expected, $actual);
+    }
+
+    public function testArraySummary()
+    {
+        //GIVEN
+        $donationFees = new \App\Support\DonationFee(1000,10);
+
+        // WHEN
+        $actual = $donationFees->getSummary();
+
+        //THEN
+        $expected = [
+            'Dotation'=>1000,
+            'Fixed Fee'=>50,
+            'Commission'=>100,
+            'Fixed And Commission'=> 150,
+            'Amount Collected' => 850,
+        ];
         $this->assertEquals($expected, $actual);
     }
 }
