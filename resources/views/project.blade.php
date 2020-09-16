@@ -21,6 +21,6 @@
     </style>
 </head>
 <body>
-<h1>Liste des projets</h1>
+    <h1>Liste des projets</h1>
 </body>
 </html>

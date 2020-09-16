@@ -4,9 +4,15 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use \App\Models\Project;
 
-class ExampleTest extends TestCase
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
+
+class ProjectTest extends TestCase
 {
+    use DatabaseMigrations;
+
     public function testBasicTest()
     {
         $response = $this->get('/project');
@@ -19,7 +25,7 @@ class ExampleTest extends TestCase
     {
         $response = $this->get('/project');
 
-        $value = 'Liste des projets';
+        $value = '<h1>Liste des projets</h1>';
 
         $response->assertSeeText($value, $escaped = true);
     }
