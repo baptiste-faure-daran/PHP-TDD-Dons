@@ -3,6 +3,8 @@
 namespace App\Support;
 
 
+use Mockery\Exception;
+
 class DonationFee
 {
 
@@ -11,8 +13,13 @@ class DonationFee
 
     public function __construct(int $donation, int $commissionPercentage)
     {
-        $this->donation = $donation;
-        $this->commissionPercentage = $commissionPercentage;
+        if ($commissionPercentage < 0 || $commissionPercentage > 30 )
+        {
+            throw new Exception("Commission percentage invalid");
+        }
+        else $this->commissionPercentage = $commissionPercentage;
+
+        
     }
 
     public function getCommissionAmount()
