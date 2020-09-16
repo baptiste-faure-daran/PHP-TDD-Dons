@@ -58,4 +58,17 @@ class DonationFeeTest extends TestCase
 
         $donationFees = new \App\Support\DonationFee(99,10);
     }
+
+    public function testMaximalTotalCommissionEquals500()
+    {
+        // GIVEN
+        $donationFees = new \App\Support\DonationFee(10000,10);
+
+        // WHEN
+        $actual = $donationFees->getFixedAndCommissionFeeAmount();
+
+        // THEN
+        $expected= 500;
+        $this->assertEquals($expected, $actual);
+    }
 }

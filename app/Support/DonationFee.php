@@ -10,6 +10,7 @@ class DonationFee
 
     private $donation;
     private $commissionPercentage;
+    private const FixedFee = 50;
 
     public function __construct(int $donation, int $commissionPercentage)
     {
@@ -36,5 +37,14 @@ class DonationFee
         return $this->donation - $this->getCommissionAmount();
     }
 
+    public function getFixedAndCommissionFeeAmount()
+    {
+        $total = self::FixedFee+$this->getCommissionAmount();
+        if ($total>500)
+        {
+            $total=500;
+        }
+        return $total;
+    }
 
 }
