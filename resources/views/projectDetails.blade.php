@@ -20,17 +20,14 @@
     </style>
 </head>
 <body>
-    <h1>Liste des projets</h1>
+<h1>Projet</h1>
 
-    @foreach($projects as $project)
     <div>
-        <a href="/article/{{$project->id}}">
             <div>
-                <h2>{{$project->name}}</h2>
-                <p>{{$project->description}}</p>
+                <h2>{{$projects->name}}</h2>
+                <p>{{$projects->User->name}}</p>
             </div>
-            @endforeach
-        </a>
+
     </div>
 </body>
 </html>

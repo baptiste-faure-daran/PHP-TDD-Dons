@@ -33,14 +33,15 @@ class DonationFeeTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function testAmountCollectedIs180CentsFormDonationOf200CentsAndCommissionOf10Percent() {
+    public function testAmountCollectedIs130CentsFormDonationOf200CentsAndCommissionOf10Percent() {
         // GIVEN
         $donationFees = new \App\Support\DonationFee(200, 10);
 
         // WHEN
         $amountCollected = $donationFees->getAmountCollected();
 
-        // THEN
+        // THEN --> valeur attendue = don - (commission pourcentage + commission fixe)
+        //expectedAmount = 200 (donation) - 20 (10% de la donation) - 50 (commission fixe)
         $expectedAmount= 130;
         $this->assertEquals($expectedAmount, $amountCollected);
     }

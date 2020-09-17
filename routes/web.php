@@ -17,9 +17,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/project', function () {
-    return view('project');
-});
+// Route pour afficher la page d'index des projets
+Route::get('/project', [\App\Http\Controllers\ProjectController::class, 'index']);
+
+// Route pour afficher le projet sélectionné
+Route::get('/project/{id}', [\App\Http\Controllers\ProjectController::class, 'show']);
 
 //Route pour afficher la page de création d'un utilisateur
 Route::get('/user/create','UserController@create');
+
