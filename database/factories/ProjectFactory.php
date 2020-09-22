@@ -26,7 +26,7 @@ class ProjectFactory extends Factory
         return [
             'name' => $this->faker->name,
             'description' => $this->faker->paragraph(1),
-            'published_at' => $this->faker->dateTime()->format('Y-m-d H:i:s'),
+            'published_at' => now(),
             'author'=> User::factory()
         ];
     }

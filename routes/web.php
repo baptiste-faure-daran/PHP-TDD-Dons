@@ -20,9 +20,32 @@ Route::get('/', function () {
 // Route pour afficher la page d'index des projets
 Route::get('/project', [\App\Http\Controllers\ProjectController::class, 'index']);
 
+// Route pour afficher la page de création d'un projet
+Route::get('/project/create','App\Http\Controllers\ProjectController@create')->middleware("auth");
+
+// Route pour stocker l'ajout ou modification
+Route::post('/project', [\App\Http\Controllers\ProjectController::class, 'store']);
+
 // Route pour afficher le projet sélectionné
 Route::get('/project/{id}', [\App\Http\Controllers\ProjectController::class, 'show']);
 
+
+
+// Route pour accéder à l'édition du projet sélectionné
+Route::get('/project/{id}/edit', [\App\Http\Controllers\ProjectController::class, 'edit']);
+
+
+// Route pour modifier le projet séléctionné
+Route::put('/project/{id}', [\App\Http\Controllers\ProjectController::class, 'update']);
+
+// Route pour supprimer le projet séléctionné
+Route::delete('/project/{id}', [\App\Http\Controllers\ProjectController::class, 'destroy']);
+
 //Route pour afficher la page de création d'un utilisateur
 Route::get('/user/create','UserController@create');
+
+
+Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+    return view('dashboard');
+})->name('/dashboard');
 

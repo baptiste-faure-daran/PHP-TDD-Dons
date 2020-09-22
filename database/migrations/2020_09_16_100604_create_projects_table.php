@@ -18,7 +18,7 @@ class CreateProjectsTable extends Migration
             $table->string('name');
             $table->longText('description')->unique();
             $table->date('published_at')->nullable;
-            $table->string('author');
+            $table->bigInteger('author')->unsigned();
             $table->foreign('author')->references('id')->on('users');
             //$table->timestamps();
         });

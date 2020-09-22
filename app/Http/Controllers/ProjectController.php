@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Models\Project;
+use App\Models\User;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 
 class ProjectController extends BaseController
 {
@@ -28,7 +33,7 @@ class ProjectController extends BaseController
      */
     public function create()
     {
-        //
+        return view('createProject', ['projects' => Project::all()]);
     }
 
     /**
@@ -39,7 +44,19 @@ class ProjectController extends BaseController
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required | string | max:70',
+            'description' => 'required | string | max:200',
+            'published_at' => 'date'
+        ]);
+
+        Project::create([
+            'name'=>$request->name,
+            'description'=>$request->description,
+            'published_at'=>now(),
+            'author'=>Auth::id()
+        ]);
+        return redirect('/project');
     }
 
     /**
@@ -63,7 +80,10 @@ class ProjectController extends BaseController
      */
     public function edit($id)
     {
-        //
+        $project=Project::findOrFail($id);
+        $project_u=User::all();
+
+        return view('editProject', ['project'=>$project, 'project_u'=>$project_u]);
     }
 
     /**
@@ -75,7 +95,12 @@ class ProjectController extends BaseController
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'name'=> 'required | string | max:70',
+            'description'=>'required'
+        ]);
+        Project::findOrFail($id)->update($request->all());
+        return redirect('/project');
     }
 
     /**
@@ -86,6 +111,7 @@ class ProjectController extends BaseController
      */
     public function destroy($id)
     {
-        //
+        $project_id=Project::where('id',$id)->delete();
+        return redirect('/project');
     }
 }

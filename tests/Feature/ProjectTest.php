@@ -89,6 +89,19 @@ class ProjectTest extends TestCase
             ]);
         $response = $this->get('/project/1');
         $response->assertSee('Macron', false);
+    }
 
+    public function testNewProjectRegister()
+    {
+        //given
+        $testUser = User::factory()->create();
+        $testNameForm = 'PostMan';
+        $testDescrForm = 'PostDescription';
+
+        //when
+        $response=$this->post('/project', ['name'=> $testNameForm, 'description'=> $testDescrForm]);
+
+        //then
+        $this->assertDatabaseHas('projects', ['name'=> $testNameForm]);
     }
 }

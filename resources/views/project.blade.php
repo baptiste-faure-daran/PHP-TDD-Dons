@@ -28,8 +28,19 @@
             <div>
                 <h2>{{$project->name}}</h2>
                 <p>{{$project->description}}</p>
+            @auth
+                <a href="/project/{{$project->id}}/edit">Modifier</a>
+                <form action="/project/{{$project->id}}" method="post">
+                    @csrf
+                    @method('delete')
+                    <button type="input">Supprimer</button>
+                </form>
+                @endauth
             </div>
             @endforeach
+        </a>
+        <a href="/">
+        <p>Retourner page accueil</p>
         </a>
     </div>
 </body>
