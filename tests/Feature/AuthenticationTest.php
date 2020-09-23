@@ -47,4 +47,21 @@ class AuthenticationTest extends TestCase {
         $response = $this->get('/project/'.$project->id.'/edit');
 
     }
+
+    public function testUserCannotEditAnotherUserProject()
+    {
+        $user = User::factory()->create();
+        $project = Project::factory()->create();
+        $this->expectException(\Illuminate\Auth\Access\AuthorizationException::class);
+        $response = $this->actingAs($user)->get('/project/'.$project->id.'/edit');
+    }
+
+    public function testAuthorizedUserCanEditProject()
+    {
+        $user = User::factory()->create();
+        $project = Project::factory()->create([
+            'author'=> $user->id
+        ]);
+        $response = $this->actingAs($user)->get('/project/'.$project->id.'/edit')->assertStatus(200);
+    }
 }
