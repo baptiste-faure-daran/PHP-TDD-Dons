@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Donation;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class DonationController extends Controller
 {
@@ -15,7 +16,7 @@ class DonationController extends Controller
      */
     public function index()
     {
-        //
+
     }
 
     /**
@@ -36,7 +37,17 @@ class DonationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'amount' => 'required',
+            'project_id' => 'required'
+        ]);
+
+        Donation::create([
+            'amount' => $request->amount,
+            'project_id' => $request->project_id,
+            'user_id' => Auth::id(),
+        ]);
+        return redirect("/projectDonation/{$request->project_id}");
     }
 
     /**

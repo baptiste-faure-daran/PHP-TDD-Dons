@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use app\Providers\AuthServiceProvider;
+use function GuzzleHttp\Promise\all;
 
 class ProjectController extends BaseController
 {
@@ -121,5 +122,21 @@ class ProjectController extends BaseController
     {
         $project_id=Project::where('id',$id)->delete();
         return redirect('/project');
+    }
+
+    public function showDonation($id)
+    {
+        $project = Project::findOrFail($id);
+        return view('projectDonation', ['projects'=> $project]);
+    }
+
+    public function storeDonation(Request $request, $id)
+    {
+        $request->validate([
+            'amount'=> 'required',
+        ]);
+
+        $project = Project::findOrFail($id)->update($request->all());
+        return redirect('/projectDonation/{id}');
     }
 }

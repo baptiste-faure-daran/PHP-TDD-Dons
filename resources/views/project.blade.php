@@ -30,7 +30,6 @@
                 <p>{{$project->description}}</p>
                 <p>{{$project->published_at}}</p>
             @auth
-                <a href="/project/{{$project->id}}/edit">Modifier</a>
                 <form action="/project/{{$project->id}}" method="post">
                     @csrf
                     @method('delete')

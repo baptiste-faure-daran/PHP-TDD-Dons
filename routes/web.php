@@ -49,3 +49,8 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('/dashboard');
 
+// Route pour afficher la page de donnation
+Route::middleware(['auth:sanctum', 'verified'])->get('/projectDonation/{id}', [\App\Http\Controllers\ProjectController::class, 'showDonation']);
+
+// Route pour mettre à jour le total des dons
+Route::middleware(['auth:sanctum', 'verified'])->post('/projectDonation/{id}', [\App\Http\Controllers\DonationController::class, 'store']);

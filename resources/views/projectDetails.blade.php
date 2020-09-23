@@ -27,6 +27,9 @@
                 <h2>{{$projects->name}}</h2>
                 <p>{{$projects->User->name}}</p>
                 <p>{{$projects->published_at}}</p>
+                <p>{{$projects->amount}}</p>
+                <br>
+                <a href="/projectDonation/{{$projects->id}}">Page de don</a>
 
                 <a href="/project/{{$projects->id}}/edit">Modifier</a>
                 <form action="/project/{{$projects->id}}" method="post">
