@@ -20,8 +20,8 @@
         <label for="description">Project Description</label>
         <input type="int" value="{{$project->description}}" class="form-control" id="projectDescription" name="description" >
     </div>
-    <a href="/">
-        <button type="button">Retourner à l'acueil'</button>
+    <a href="/project">
+        <button type="button">Retourner aux projets'</button>
     </a>
     @if ($errors->any())
         <div class="alert alert-danger">

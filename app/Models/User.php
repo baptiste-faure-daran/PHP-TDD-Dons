@@ -64,5 +64,10 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\Project', 'author');
     }
 
+    public function donations()
+    {
+        return $this->hasMany('App\Models\Donation');
+    }
+
 
 }

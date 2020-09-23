@@ -26,7 +26,17 @@
             <div>
                 <h2>{{$projects->name}}</h2>
                 <p>{{$projects->User->name}}</p>
+                <p>{{$projects->published_at}}</p>
+
+                <a href="/project/{{$projects->id}}/edit">Modifier</a>
+                <form action="/project/{{$projects->id}}" method="post">
+                    @csrf
+                    @method('delete')
+                    <button type="input">Supprimer</button>
+                </form>
+                <a href="/project">Retourner page projets</a>
             </div>
+
 
     </div>
 </body>

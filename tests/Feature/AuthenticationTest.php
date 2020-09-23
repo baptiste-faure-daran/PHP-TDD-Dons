@@ -15,11 +15,6 @@ class AuthenticationTest extends TestCase {
 
     use DatabaseMigrations;
 
-    public function onlyAuthorUserCanEditProject()
-    {
-
-    }
-
     public function testUnauthenticatedUserCannotShowDashboard()
     {
         $this->expectException(\Illuminate\Auth\AuthenticationException::class);
@@ -39,15 +34,6 @@ class AuthenticationTest extends TestCase {
         $response = $this->get('/project/'.$project->id.'/edit');
     }
 
-    public function testCannotEditNonAuthorProject()
-    {
-        $project = Project::factory()->create();
-        $this->expectException(\Illuminate\Auth\AuthenticationException::class);
-
-        $response = $this->get('/project/'.$project->id.'/edit');
-
-    }
-
     public function testUserCannotEditAnotherUserProject()
     {
         $user = User::factory()->create();
@@ -63,5 +49,14 @@ class AuthenticationTest extends TestCase {
             'author'=> $user->id
         ]);
         $response = $this->actingAs($user)->get('/project/'.$project->id.'/edit')->assertStatus(200);
+    }
+
+    public function testNonAuthorCannotValidateProjectEdition()
+    {
+        $user = User::factory()->create();
+        $project = Project::factory()->create();
+        $this->expectException(\Illuminate\Auth\Access\AuthorizationException::class);
+
+        $response = $this->actingAs($user)->post('/project')->assertStatus(200);
     }
 }

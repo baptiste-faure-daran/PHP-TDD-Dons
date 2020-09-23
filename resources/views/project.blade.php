@@ -24,10 +24,11 @@
 
     @foreach($projects as $project)
     <div>
-        <a href="/article/{{$project->id}}">
+        <a href="/project/{{$project->id}}">
             <div>
                 <h2>{{$project->name}}</h2>
                 <p>{{$project->description}}</p>
+                <p>{{$project->published_at}}</p>
             @auth
                 <a href="/project/{{$project->id}}/edit">Modifier</a>
                 <form action="/project/{{$project->id}}" method="post">
@@ -39,8 +40,11 @@
             </div>
             @endforeach
         </a>
-        <a href="/">
-        <p>Retourner page accueil</p>
+        <a href="/project/create">
+            <p>Ajouter un projet</p>
+        </a>
+        <a href="/dashboard">
+            <p>Retourner page accueil</p>
         </a>
     </div>
 </body>

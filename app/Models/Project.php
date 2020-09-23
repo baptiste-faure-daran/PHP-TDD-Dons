@@ -29,4 +29,9 @@ class Project extends Model
             -> withSession(['foo' => 'bar'])
             -> get ('/');
     }
+
+    public function donation()
+    {
+        return $this->hasMany('App\Models\Donation');
+    }
 }

@@ -24,6 +24,9 @@
         </div>
 
         <button type="submit" value="register" class="btn btn-primary">Ajouter le projet</button>
+        <a href="/project">
+            <p>Retourner page projets</p>
+        </a>
     </form>
 
 </div>
