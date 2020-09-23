@@ -32,17 +32,17 @@ Route::get('/project/{id}', [\App\Http\Controllers\ProjectController::class, 'sh
 
 
 // Route pour accéder à l'édition du projet sélectionné
-Route::get('/project/{id}/edit', [\App\Http\Controllers\ProjectController::class, 'edit']);
+Route::middleware(['auth:sanctum', 'verified'])->get('/project/{id}/edit', [\App\Http\Controllers\ProjectController::class, 'edit']);
 
 
 // Route pour modifier le projet séléctionné
-Route::put('/project/{id}', [\App\Http\Controllers\ProjectController::class, 'update']);
+Route::middleware(['auth:sanctum', 'verified'])->put('/project/{id}', [\App\Http\Controllers\ProjectController::class, 'update']);
 
 // Route pour supprimer le projet séléctionné
-Route::delete('/project/{id}', [\App\Http\Controllers\ProjectController::class, 'destroy']);
+Route::middleware(['auth:sanctum', 'verified'])->delete('/project/{id}', [\App\Http\Controllers\ProjectController::class, 'destroy']);
 
 //Route pour afficher la page de création d'un utilisateur
-Route::get('/user/create','UserController@create');
+Route::middleware(['auth:sanctum', 'verified'])->get('/user/create','UserController@create');
 
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {

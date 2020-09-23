@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-
+use App\Http\Controllers;
 use App\Models\Project;
 use App\Models\User;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -11,7 +11,8 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Gate;
+use app\Providers\AuthServiceProvider;
 
 class ProjectController extends BaseController
 {
@@ -22,7 +23,6 @@ class ProjectController extends BaseController
      */
     public function index()
     {
-
         return view('project', ['projects' => Project::all()]);
     }
 
@@ -33,7 +33,11 @@ class ProjectController extends BaseController
      */
     public function create()
     {
-        return view('createProject', ['projects' => Project::all()]);
+      //  if (Auth::check())
+      //  {
+            return view('createProject', ['projects' => Project::all()]);
+      //  }
+      //  else return redirect('\dashboard');
     }
 
     /**
@@ -80,10 +84,14 @@ class ProjectController extends BaseController
      */
     public function edit($id)
     {
-        $project=Project::findOrFail($id);
-        $project_u=User::all();
+        if (Auth::check()) {
+            $project = Project::findOrFail($id);
+            Gate::authorize('update-project', $project);
+            $project_u = User::all();
 
-        return view('editProject', ['project'=>$project, 'project_u'=>$project_u]);
+            return view('editProject', ['project' => $project, 'project_u' => $project_u]);
+        }
+        else redirect('/dashboard');
     }
 
     /**

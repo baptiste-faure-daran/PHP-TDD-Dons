@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Models\Team;
 use App\Policies\TeamPolicy;
+
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -26,6 +28,14 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        Gate::define('edit-project', function ($user) {
+            return $user->isAdmin;
+        });
+
+        Gate::define('update-project', function ($user, $project){
+
+         //   ($user->id, $project->author,$user->id == $project->author);
+            return $user->id == $project->author;
+        });
     }
 }

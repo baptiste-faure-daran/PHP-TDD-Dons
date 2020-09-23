@@ -25,11 +25,26 @@ class AuthenticationTest extends TestCase {
         $this->expectException(\Illuminate\Auth\AuthenticationException::class);
         $response = $this->get('/dashboard');
     }
-    
-    public function testUnauthenticatedUserCanShowDashboard()
+
+    public function testAuthenticatedUserCanShowDashboard()
     {
         $user = User::factory()->create();
         $response = $this->actingAs($user)->get('/dashboard')->assertStatus(200);
     }
 
+    public function testUnauthenticatedUserCannotEditProject()
+    {
+        $project = Project::factory()->create();
+        $this->expectException(\Illuminate\Auth\AuthenticationException::class);
+        $response = $this->get('/project/'.$project->id.'/edit');
+    }
+
+    public function testCannotEditNonAuthorProject()
+    {
+        $project = Project::factory()->create();
+        $this->expectException(\Illuminate\Auth\AuthenticationException::class);
+
+        $response = $this->get('/project/'.$project->id.'/edit');
+
+    }
 }

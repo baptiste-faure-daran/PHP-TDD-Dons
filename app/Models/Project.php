@@ -10,7 +10,12 @@ class Project extends Model
     use HasFactory;
 
     public $timestamps = false;
+
     protected $fillable = ['name', 'description', 'published_at', 'author'];
+
+    protected $casts = [
+        'author' => 'integer'
+    ];
 
     public function user() {
         return $this->belongsTo(User::class, 'author');
