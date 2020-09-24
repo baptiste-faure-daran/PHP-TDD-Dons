@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Donation;
 use App\Models\Team;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -55,8 +56,31 @@ class AuthenticationTest extends TestCase {
     {
         $user = User::factory()->create();
         $project = Project::factory()->create();
-        $this->expectException(\Illuminate\Auth\Access\AuthorizationException::class);
+        $this->expectException(\Illuminate\Validation\ValidationException::class);
 
         $response = $this->actingAs($user)->post('/project')->assertStatus(200);
+    }
+
+    public function testNotUserCannotSubmitDonationForm()
+    {
+        $donation = Donation::factory()->create([
+            'amount'=> 15
+        ]);
+        $this->expectException(\Illuminate\Auth\AuthenticationException::class);
+
+        $response = $this->post('/projectDonation/'.$donation->project_id.'', ['amount'=>$donation])->assertStatus(200);
+    }
+
+    public function testUserCanSubmitDonationForm()
+    {
+        // GIVEN
+        $project = Project::factory()->create();
+
+        // WHEN
+        $response=$this->actingAs($project->user)->post('/projectDonation/'.$project->id.'', ['amount'=> '10', 'project_id'=> $project->id])->assertStatus(302);
+
+        // THEN
+        $this->assertDatabaseHas('donations', ['amount'=> '10', 'user_id'=>$project->author, 'project_id'=>$project->id]);
+
     }
 }
