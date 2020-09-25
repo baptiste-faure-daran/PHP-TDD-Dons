@@ -9,16 +9,16 @@
 <body>
 <h1>Edit project</h1>
 <hr>
-<form method="post" action="{{url('project', [$project->id])}}">
+<form method="post" action="{{url('project', [$projects->id])}}">
     {{ method_field('PUT') }}
     {{ csrf_field() }}
     <div class="form-group">
         <label for="title">Project Name</label>
-        <input type="text" value="{{$project->name}}" class="form-control" id="projectName"  name="name" >
+        <input type="text" value="{{$projects->name}}" class="form-control" id="projectName"  name="name" >
     </div>
     <div class="form-group">
         <label for="description">Project Description</label>
-        <input type="int" value="{{$project->description}}" class="form-control" id="projectDescription" name="description" >
+        <input type="int" value="{{$projects->description}}" class="form-control" id="projectDescription" name="description" >
     </div>
     <a href="/project">
         <button type="button">Retourner aux projets'</button>

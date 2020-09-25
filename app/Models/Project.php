@@ -21,16 +21,9 @@ class Project extends Model
         return $this->belongsTo(User::class, 'author');
     }
 
-    public function authentification()
-    {
-        $user = User::factory()-> create();
 
-        $response = $this->actingAs($user)
-            -> withSession(['foo' => 'bar'])
-            -> get ('/');
-    }
 
-    public function donation()
+    public function donations()
     {
         return $this->hasMany('App\Models\Donation');
     }

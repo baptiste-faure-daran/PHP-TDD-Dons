@@ -23,7 +23,7 @@ Route::get('/project', [\App\Http\Controllers\ProjectController::class, 'index']
 // Route pour afficher la page de création d'un projet
 Route::get('/project/create','App\Http\Controllers\ProjectController@create')->middleware("auth");
 
-// Route pour stocker l'ajout ou modification
+// Route pour stocker l'ajout
 Route::post('/project', [\App\Http\Controllers\ProjectController::class, 'store']);
 
 // Route pour afficher le projet sélectionné
@@ -33,7 +33,6 @@ Route::get('/project/{id}', [\App\Http\Controllers\ProjectController::class, 'sh
 
 // Route pour accéder à l'édition du projet sélectionné
 Route::middleware(['auth:sanctum', 'verified'])->get('/project/{id}/edit', [\App\Http\Controllers\ProjectController::class, 'edit']);
-
 
 // Route pour modifier le projet séléctionné
 Route::middleware(['auth:sanctum', 'verified'])->put('/project/{id}', [\App\Http\Controllers\ProjectController::class, 'update']);
@@ -52,5 +51,6 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 // Route pour afficher la page de donnation
 Route::middleware(['auth:sanctum', 'verified'])->get('/projectDonation/{id}', [\App\Http\Controllers\ProjectController::class, 'showDonation']);
 
-// Route pour mettre à jour le total des dons
+// Route pour enregistrer le don
 Route::middleware(['auth:sanctum', 'verified'])->post('/projectDonation/{id}', [\App\Http\Controllers\DonationController::class, 'store']);
+
