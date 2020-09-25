@@ -22,6 +22,8 @@
 <body>
     <h1>Liste des projets</h1>
 
+    <h2>Hello</h2>
+
     @foreach($projects as $project)
     <div>
         <a href="/project/{{$project->id}}">
