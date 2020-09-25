@@ -23,6 +23,7 @@
     <h1>Liste des projets</h1>
 
     <h2>Hello</h2>
+    <h3>Test</h3>
 
     @foreach($projects as $project)
     <div>
