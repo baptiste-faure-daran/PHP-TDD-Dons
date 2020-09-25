@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\DonationReceived;
+use App\Mail\DonationSent;
 use App\Models\Donation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Mail;
 
 class DonationController extends Controller
 {
@@ -26,28 +29,34 @@ class DonationController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function store(Request $request)
     {
         $request->validate([
             'amount' => 'required',
-            'project_id' => 'required'
         ]);
 
-        Donation::create([
+        $donation = Donation::create([
             'amount' => $request->amount,
             'project_id' => $request->project_id,
             'user_id' => Auth::id(),
         ]);
-        return redirect("/projectDonation/{$request->project_id}");
+
+        $projectOwner = $donation->project->user;
+
+        Mail::to(Auth::user()->email)->send(new DonationSent($donation));
+
+        Mail::to($projectOwner->email)->send(new DonationReceived($donation));
+
+        return redirect("/projectDonation/{$donation->project_id}");
     }
 
     /**

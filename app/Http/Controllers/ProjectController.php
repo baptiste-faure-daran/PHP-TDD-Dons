@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers;
+use App\Mail\DonationReceived;
+use App\Mail\DonationSent;
+use App\Models\Donation;
 use App\Models\Project;
 use App\Models\User;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -90,7 +93,7 @@ class ProjectController extends BaseController
             Gate::authorize('update-project', $project);
             $project_u = User::all();
 
-            return view('editProject', ['project' => $project, 'project_u' => $project_u]);
+            return view('editProject', ['projects' => $project, 'project_u' => $project_u]);
         }
         else redirect('/dashboard');
     }
@@ -106,10 +109,17 @@ class ProjectController extends BaseController
     {
         $request->validate([
             'name'=> 'required | string | max:70',
-            'description'=>'required'
+            'description'=> 'required'
         ]);
-        Project::findOrFail($id)->update($request->all());
-        return redirect('/project');
+        $project = Project::find($id);
+        if (Gate::allows('update-project', $project)){
+            $project->name = $request->input('name');
+            $project->description = $request->input('description');
+
+            $project->save();
+            return view('projectDetails', ['projects'=>$project]);
+        }
+        abort(401);
     }
 
     /**
@@ -139,4 +149,20 @@ class ProjectController extends BaseController
         $project = Project::findOrFail($id)->update($request->all());
         return redirect('/projectDonation/{id}');
     }
-}
+
+    public function confirmDonation(Request $request, int $id)
+    {
+        $validatedData = $request->validate([
+            'donation'=>'required | numeric',
+        ]);
+
+        $project = Project::findOrFail($id);
+        $projectOwner = Project::findOrFail($project->author);
+
+        Mail::to(Auth::user()->email)->send(new DonationSent($request->input('donation')));
+
+        Mail::to($projectOwner->email)->send(new DonationReceived($request->input('donation')));
+
+        return view('project', ['projects' => $project], ['request' => $request]);
+
+    }}
